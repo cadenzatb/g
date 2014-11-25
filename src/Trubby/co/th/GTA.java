@@ -1,18 +1,23 @@
 package Trubby.co.th;
 
+import net.milkbowl.vault.economy.Economy;
+
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.ScoreboardManager;
 
-import Trubby.co.th.Utils.MobsUtil;
 import Trubby.co.th.chest.ChestListener;
 import Trubby.co.th.chest.ChestManager;
 import Trubby.co.th.chest.ItemDatabase;
+
+import com.shampaggon.crackshot.CSUtility;
 
 public class GTA extends JavaPlugin{
 	
@@ -20,7 +25,9 @@ public class GTA extends JavaPlugin{
 	public static ScoreboardManager sbm = Bukkit.getScoreboardManager();
 	public static PlayerManager pmg = new PlayerManager();
 	public static ChestManager cmg = new ChestManager();
-	private ItemDatabase itemData = new ItemDatabase();
+	
+	public static Economy economy = null;
+	public static CSUtility crackshot = new CSUtility(); 
 	
 	@Override
 	public void onEnable() {
@@ -30,12 +37,14 @@ public class GTA extends JavaPlugin{
 		
 		instance = this;
 		
+		setupEconomy();
+		
 		for(Player p : Bukkit.getOnlinePlayers()){
 			getPlayerManager().addPlayer(p);
 		}
 		
 		runWantedTask();
-		itemData.init();
+		new ItemDatabase();
 	}
 	
 	@Override
@@ -55,10 +64,21 @@ public class GTA extends JavaPlugin{
 		
 		if(label.equals("test")){
 			Player p = (Player) sender;
-			PigZombie pigzombie = (PigZombie) MobsUtil.spawnMob(p.getLocation(), EntityType.PIG_ZOMBIE, 1, 0.0, 0.0, 0.0);
+			/*PigZombie pigzombie = (PigZombie) MobsUtil.spawnMob(p.getLocation(), EntityType.PIG_ZOMBIE, 1, 0.0, 0.0, 0.0);
 			pigzombie.setAngry(true);
 			
-			getPlayerManager().addWanted(p);
+			getPlayerManager().addWanted(p);*/
+			int i = 0;
+			for(Chunk c : p.getWorld().getLoadedChunks()){
+				for(BlockState b : c.getTileEntities()){
+					if(b instanceof Chest){
+						Chest chest = (Chest) b;
+						getChestManager().fillChest(chest);
+						i++;
+					}
+				}
+			}
+			p.sendMessage(""+i);
 		}
 		
 		return false;
@@ -78,6 +98,7 @@ public class GTA extends JavaPlugin{
 		return pmg;
 	}
 	
+	//TASK
 	public void runWantedTask(){
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			
@@ -87,5 +108,15 @@ public class GTA extends JavaPlugin{
 			}
 		}, 0, 100);
 	}
+	
+	//API
+	private boolean setupEconomy()
+    {
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            economy = economyProvider.getProvider();
+        }
+        return (economy != null);
+    }
 	
 }

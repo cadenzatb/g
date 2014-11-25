@@ -3,5 +3,6 @@ version: 1.0
 description: nothing
 main: Trubby.co.th.GTA
 author: Tub
+depend: [Vault, Essentials]
 commands:
   test:

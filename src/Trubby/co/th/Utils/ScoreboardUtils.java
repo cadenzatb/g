@@ -6,7 +6,9 @@ import java.util.Map;
  
 
 
+
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -14,6 +16,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
  
+
 
 
 import com.google.common.base.Preconditions;
@@ -52,7 +55,7 @@ public class ScoreboardUtils {
  
         private String fixDuplicates(String text) {
                 while (scores.containsKey(text))
-                        text += "§r";
+                        text += ChatColor.RESET;
                 if (text.length() > 48)
                         text = text.substring(0, 47);
                 return text;

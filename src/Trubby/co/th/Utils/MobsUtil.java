@@ -4,6 +4,7 @@ import net.minecraft.server.v1_7_R4.AttributeInstance;
 import net.minecraft.server.v1_7_R4.EntityInsentient;
 import net.minecraft.server.v1_7_R4.GenericAttributes;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
@@ -42,7 +43,7 @@ public class MobsUtil {
 	    if (speed != 0.0D) {
 	      setMobSpeed(e, speed);
 	    }
-	    le.setCustomName("§cCOPs");
+	    le.setCustomName(ChatColor.RED + "COPs");
 	    le.setCustomNameVisible(true);
 	    le.setRemoveWhenFarAway(false);
 	    
@@ -54,7 +55,7 @@ public class MobsUtil {
 		for (int i = 0; i < wanted*3; i++) {
 			Entity e = loc.getWorld().spawnEntity(loc, EntityType.PIG_ZOMBIE);
 			PigZombie le = (PigZombie)e;
-		    le.setCustomName("§cCOPs");
+		    le.setCustomName(ChatColor.RED + "COPs");
 		    le.setCustomNameVisible(true);
 		    le.setRemoveWhenFarAway(true);
 		    le.getEquipment().clear();

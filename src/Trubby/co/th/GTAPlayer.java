@@ -9,7 +9,6 @@ import Trubby.co.th.Utils.ScoreboardUtils;
 
 public class GTAPlayer {
 
-
 	public String name;
 
 	public int kill = 0;
@@ -21,21 +20,22 @@ public class GTAPlayer {
 	public Scoreboard sb;
 	public Objective ob;
 	
+	@SuppressWarnings("deprecation")
 	public GTAPlayer(Player p){
 		name = p.getName();
 		
 		//set up scoreboard
 		sbu = new ScoreboardUtils(ChatColor.RED + "" + ChatColor.BOLD + "GTA");
 		sbu.add(ChatColor.AQUA + "Kills");
-		sbu.add(kill + "");
+		sbu.add(""+kill);
 		sbu.add(ChatColor.AQUA + "Deaths");
-		sbu.add(death + "");
+		sbu.add(""+death);
 		sbu.add(ChatColor.AQUA + "K/D Ratio");
-		sbu.add(kdr + "");
+		sbu.add(""+kdr);
 		sbu.add(ChatColor.AQUA + "Money");
-		sbu.add(0 + "");
+		sbu.add(ChatColor.GOLD + "" + GTA.economy.getBalance(name));
 		sbu.add(ChatColor.AQUA + "Wanted");
-		sbu.add(wanted + "");
+		sbu.add(""+wanted);
 		sbu.build();
 		
 		sb = sbu.getScoreboard();
@@ -44,19 +44,20 @@ public class GTAPlayer {
 		p.setScoreboard(sb);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void updateScoreboard(){
 		ob.unregister();
 		sbu.reset();
 		sbu.add(ChatColor.AQUA + "Kills");
-		sbu.add(kill + "");
+		sbu.add(""+kill);
 		sbu.add(ChatColor.AQUA + "Deaths");
-		sbu.add(death + "");
+		sbu.add(""+death);
 		sbu.add(ChatColor.AQUA + "K/D Ratio");
-		sbu.add(kdr + "");
+		sbu.add(""+kdr);
 		sbu.add(ChatColor.AQUA + "Money");
-		sbu.add(0 + "");
+		sbu.add(ChatColor.GOLD + "" + GTA.economy.getBalance(name));
 		sbu.add(ChatColor.AQUA + "Wanted");
-		sbu.add(wanted + "");
+		sbu.add(""+wanted);
 		sbu.update();
 		ob = sb.getObjective("GTA");
 		

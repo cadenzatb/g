@@ -59,19 +59,23 @@ public class ChestManager {
 	}
 	
 	public void fillChest(Chest chest){
-		Bukkit.broadcastMessage("yeah");
 		Inventory inv = chest.getInventory();
-		Bukkit.broadcastMessage("" + inv.getContents().length);
-		Bukkit.broadcastMessage("" + ran.nextInt(5) + 1);
+		int i = 0;
 		while (inv.firstEmpty() < ran.nextInt(5) + 1) {
-			Bukkit.broadcastMessage("yeah2");
 			GTAItem gtaitem = itemlist.get(ran.nextInt(itemlist.size()));
 			if(ran.nextInt(100) + 1 <= gtaitem.getChance()){
 				ItemStack is = gtaitem.getItem();
-				is.setAmount(ran.nextInt(gtaitem.getAmount() + 1));
-				inv.addItem(is);
+				//random amount
+				if(gtaitem.getAmount() != 1){
+					is.setAmount(ran.nextInt(gtaitem.getAmount() + 1));
+				}
+				
+				if(is != null)inv.addItem(is);
 			}
+			i++;
 		}
+		
+		System.out.println("Chest fill count : " + i);
 	}
 	
 }

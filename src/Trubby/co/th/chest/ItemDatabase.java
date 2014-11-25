@@ -1,5 +1,6 @@
 package Trubby.co.th.chest;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -9,7 +10,7 @@ import Trubby.co.th.Utils.ItemsUtil;
 
 public class ItemDatabase {
 
-	public void init(){
+	public ItemDatabase(){
 		ChestManager cm = GTA.getChestManager();
 		
 		/**
@@ -25,6 +26,12 @@ public class ItemDatabase {
 		cm.itemlist.add(new GTAItem(ammo_assault, 30, 50));
 		cm.itemlist.add(new GTAItem(ammo_sniper, 5, 50));
 		cm.itemlist.add(new GTAItem(ammo_shotgun, 6, 50));
+		
+		ItemStack gun_assault1 = GTA.crackshot.generateWeapon("assault1");
+		
+		cm.itemlist.add(new GTAItem(gun_assault1, 1, 100));
+		
+		Bukkit.broadcastMessage(""+cm.itemlist);
 	}
 	
 }
