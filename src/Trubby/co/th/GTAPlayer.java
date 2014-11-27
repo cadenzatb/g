@@ -1,5 +1,10 @@
 package Trubby.co.th;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DecimalFormat;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
@@ -13,16 +18,26 @@ public class GTAPlayer {
 
 	public int kill = 0;
 	public int death = 0;
-	public float kdr = 0.0f;
+	public String kdr = "1.00";
 	public float wanted = 0.0f;
 	//score board
 	public ScoreboardUtils sbu;
 	public Scoreboard sb;
 	public Objective ob;
 	
-	@SuppressWarnings("deprecation")
 	public GTAPlayer(Player p){
 		name = p.getName();
+		
+		try {
+			Statement statement = GTA.getSql().connection.createStatement();
+			ResultSet res = statement.executeQuery("SELECT * FROM GTA WHERE Name='"+name+"'");
+			res.next();
+			kill = res.getInt("Kill");
+			death = res.getInt("Death");
+		} catch (SQLException e) {
+		}
+		
+		updateKdr();
 		
 		//set up scoreboard
 		sbu = new ScoreboardUtils(ChatColor.RED + "" + ChatColor.BOLD + "GTA");
@@ -44,8 +59,8 @@ public class GTAPlayer {
 		p.setScoreboard(sb);
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void updateScoreboard(){
+		updateKdr();
 		ob.unregister();
 		sbu.reset();
 		sbu.add(ChatColor.AQUA + "Kills");
@@ -61,6 +76,15 @@ public class GTAPlayer {
 		sbu.update();
 		ob = sb.getObjective("GTA");
 		
+	}
+	
+	public void save(){
+		try {
+			Statement statement = GTA.getSql().connection.createStatement();
+			statement.executeUpdate("UPDATE  `mc`.`gta` SET  `Kill` =  '"+kill+"',`Death` =  '"+death+"' WHERE CONVERT(  `gta`.`Name` USING utf8 ) =  '"+name+"';");
+			statement.close();
+		} catch (SQLException e) {
+		}
 	}
 	
 	/** 
@@ -89,24 +113,23 @@ public class GTAPlayer {
 		updateKdr();
 	}
 
-	public float getKdr() {
+	public String getKdr() {
 		return kdr;
 	}
 
-	public void setKdr(float kdr) {
+	public void setKdr(String kdr) {
 		this.kdr = kdr;
 	}
 	
 	public void updateKdr() {
 		
-		if(death == 0){
-			kdr = kill;
+		if(kill == 0){
+			kdr = "1.00";
 			return;
 		}
 		
-		float calkdr = (float) (kill/death) * 100;
-		int intkdr = (int) calkdr/100;
-		this.kdr = intkdr;
+		float calkdr = (float) kill/death;
+		this.kdr = new DecimalFormat("0.00").format(calkdr);
 	}
 
 	public float getWanted() {

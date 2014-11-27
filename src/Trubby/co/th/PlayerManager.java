@@ -1,5 +1,9 @@
 package Trubby.co.th;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,10 +26,24 @@ public class PlayerManager {
 	 */
 	
 	public void addPlayer(Player p){
+		Bukkit.broadcastMessage("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		Bukkit.broadcastMessage(""+checkDataExist(p));
+		if(!checkDataExist(p)){
+			try {
+				Statement statement = GTA.getSql().connection.createStatement();
+				statement.executeUpdate("INSERT INTO GTA (`Name`,`Kill`,`Death`) VALUES ('" + p.getName() + "', '0', '0')");
+				statement.close();
+				
+				Bukkit.broadcastMessage(ChatColor.GOLD + "Greeting! :D [sql-registered] " + ChatColor.WHITE + p.getName());
+			} catch (Exception e) {
+			}
+		}
 		playerlist.put(p.getName(), new GTAPlayer(p));
 	}
 	
 	public void removePlayer(Player p){
+		GTAPlayer gtap = playerlist.get(p.getName());
+		gtap.save();
 		playerlist.remove(p.getName());
 	}
 	
@@ -42,15 +60,23 @@ public class PlayerManager {
 	}
 	
 	public GTAPlayer getGTAplayer(String str) {
-		Iterator<?> it = playerlist.entrySet().iterator();
-		while (it.hasNext()) {
-			@SuppressWarnings("rawtypes")
-			Map.Entry pairs = (Map.Entry) it.next();
-			if (pairs.getKey().equals(str)) {
-				return (GTAPlayer) pairs.getValue();
-			}
+		return playerlist.get(str);
+	}
+	
+	public boolean checkDataExist(Player p){
+		try {
+			PreparedStatement pre = GTA.getSql().connection.prepareStatement("SELECT * FROM `GTA` WHERE Name=?;");
+			pre.setString(1, p.getName());
+			ResultSet res = pre.executeQuery();
+			boolean containPlayer = res.next();
+			
+			pre.close();
+			res.close();
+			
+			return containPlayer;
+		} catch (SQLException e) {
+			return false;
 		}
-		return null;
 	}
 	
 	@SuppressWarnings("rawtypes")
