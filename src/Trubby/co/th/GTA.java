@@ -1,8 +1,5 @@
 package Trubby.co.th;
 
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
@@ -21,16 +18,20 @@ import Trubby.co.th.SQL.SqlManager;
 import Trubby.co.th.chest.ChestListener;
 import Trubby.co.th.chest.ChestManager;
 import Trubby.co.th.chest.ItemDatabase;
+import Trubby.co.th.wanted.WantedManager;
 
 import com.shampaggon.crackshot.CSUtility;
 
 public class GTA extends JavaPlugin{
 	
+	//\u272a
 	public static GTA instance;
 	public static ScoreboardManager sbm = Bukkit.getScoreboardManager();
 	public static PlayerManager pmg = new PlayerManager();
 	public static ChestManager cmg = new ChestManager();
 	public static SqlManager sql = new SqlManager();
+	public static WantedManager wtm = new WantedManager();
+	public static StringManager stm = new StringManager();
 	
 	public static Economy economy = null;
 	public static CSUtility crackshot = new CSUtility(); 
@@ -70,57 +71,70 @@ public class GTA extends JavaPlugin{
 	public boolean onCommand(CommandSender sender, Command command,
 			String label, String[] args) {
 		
-		if(label.equalsIgnoreCase("setup")){
-			try {
-				Statement statement = sql.connection.createStatement();
-				statement.executeUpdate("CREATE TABLE Gta(Name varchar(16), Kill int, Death int);");
-				statement.close();
-				sender.sendMessage("setup!");
-			} catch (SQLException e) {
-				Bukkit.broadcastMessage("3");
-				e.printStackTrace();
-			}
-			sender.sendMessage("yeah!");
-		}
-		
 		if(!(sender instanceof Player))return false;
-		
-		if(label.equals("test")){
-			Player p = (Player) sender;
-			/*PigZombie pigzombie = (PigZombie) MobsUtil.spawnMob(p.getLocation(), EntityType.PIG_ZOMBIE, 1, 0.0, 0.0, 0.0);
-			pigzombie.setAngry(true);
 			
-			getPlayerManager().addWanted(p);*/
-			int i = 0;
-			for(Chunk c : p.getWorld().getLoadedChunks()){
-				for(BlockState b : c.getTileEntities()){
-					if(b instanceof Chest){
-						Chest chest = (Chest) b;
-						getChestManager().breakChest(chest);;
-						i++;
+		if(label.equalsIgnoreCase("gta") || label.equalsIgnoreCase("g")){
+			//permission
+			if(sender.hasPermission("gta.admin")){
+				sender.sendMessage(ChatColor.RED + "Nothing happen.");
+				return false;
+			}
+			
+			if(args.length >= 1){
+				
+				if(args[0].equalsIgnoreCase("chestdelay")){
+					if(args.length >= 2){
+						getChestManager().setChest_delay(Integer.getInteger(args[2]));
+						sender.sendMessage("Chest delay set to " + args[2]);
+					}else{
+						sender.sendMessage("/gta chestdelay [amount]");
 					}
 				}
-			}
-			p.sendMessage(""+i);
-		}else if(label.equalsIgnoreCase("connect")){
-			Player p = (Player) sender;
-			/*try {
-				Statement statement = sql.connection.createStatement();
-				statement.executeUpdate("CREATE TABLE GTA(Name varchar(16),Kill int,Death int);");
-				statement.close();
-				p.sendMessage(ChatColor.GREEN + "connected!");
-			} catch (SQLException e) {
-			}*/
-			
-			Statement statement;
-			try {
-				statement = GTA.getSql().connection.createStatement();
-				statement.executeUpdate("INSERT INTO GTA (`Name`,`Kill`,`Death`) VALUES ('" + p.getName() + "', '0', '0')");
-				statement.close();
 				
-				p.sendMessage("awd");
-			} catch (SQLException e) {
-				e.printStackTrace();
+				else if(args[0].equalsIgnoreCase("chestreset")){
+					Player p = (Player) sender;
+					/*PigZombie pigzombie = (PigZombie) MobsUtil.spawnMob(p.getLocation(), EntityType.PIG_ZOMBIE, 1, 0.0, 0.0, 0.0);
+					pigzombie.setAngry(true);
+					
+					getPlayerManager().addWanted(p);*/
+					int i = 0;
+					for(Chunk c : p.getWorld().getLoadedChunks()){
+						for(BlockState b : c.getTileEntities()){
+							if(b instanceof Chest){
+								Chest chest = (Chest) b;
+								chest.getInventory().clear();
+								getChestManager().breakChest(chest,20L);
+								i++;
+							}
+						}
+					}
+					p.sendMessage(""+i);
+				}
+				
+				
+			}else{
+				sender.sendMessage("/gta help");
+				return false;
+			}
+		}
+		
+		else if(label.equalsIgnoreCase("wanted")){
+			Player p = (Player) sender;
+			if(args.length < 1) {
+				p.sendMessage("/wanted help");
+			}
+			
+			else if(args[0].equalsIgnoreCase("check")){
+				getWantedManager().checkWantedLevel(p);
+			}
+			
+			else if(args[0].equalsIgnoreCase("list")){
+				getWantedManager().listWanted(p);
+			}
+			
+			else if(args[0].equalsIgnoreCase("help")){
+				p.sendMessage("/wanted check");
+				p.sendMessage("/wanted list");
 			}
 		}
 		
@@ -145,13 +159,21 @@ public class GTA extends JavaPlugin{
 		return sql;
 	}
 	
+	public static WantedManager getWantedManager() {
+		return wtm;
+	}
+	
+	public static StringManager getStringManager() {
+		return stm;
+	}
+	
 	//TASK
 	public void runWantedTask(){
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			
 			@Override
 			public void run() {
-				getPlayerManager().wantedTask();
+				getWantedManager().runWantedTask();
 			}
 		}, 0, 100);
 	}

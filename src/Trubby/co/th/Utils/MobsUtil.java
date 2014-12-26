@@ -1,5 +1,7 @@
 package Trubby.co.th.Utils;
 
+import java.util.Random;
+
 import net.minecraft.server.v1_7_R4.AttributeInstance;
 import net.minecraft.server.v1_7_R4.EntityInsentient;
 import net.minecraft.server.v1_7_R4.GenericAttributes;
@@ -13,8 +15,11 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.PigZombie;
+import org.bukkit.inventory.ItemStack;
 
 public class MobsUtil {
+	
+	public static Random ran = new Random();
 	
 	/**
 	 * ---- DEFAULT ----
@@ -52,16 +57,44 @@ public class MobsUtil {
 	
 	public static void spawnPigman(Location loc, int wanted)
 	  {
-		for (int i = 0; i < wanted*3; i++) {
-			Entity e = loc.getWorld().spawnEntity(loc, EntityType.PIG_ZOMBIE);
-			PigZombie le = (PigZombie)e;
-		    le.setCustomName(ChatColor.RED + "COPs");
-		    le.setCustomNameVisible(true);
-		    le.setRemoveWhenFarAway(true);
-		    le.getEquipment().clear();
-		    le.setAngry(true);
+		
+		if(wanted >= 5){
+			for (int i = 0; i < 10; i++) {
+				Entity e = loc.getWorld().spawnEntity(loc, EntityType.PIG_ZOMBIE);
+				PigZombie le = (PigZombie)e;
+			    le.setCustomName(ChatColor.RED + "COP");
+			    le.setCustomNameVisible(true);
+			    le.setRemoveWhenFarAway(true);
+			    le.setAngry(true);
+			    le.setBaby(false);
+			    le.getEquipment().setItemInHand(new ItemStack(Material.AIR));
+			}
+		}else if(wanted >= 4){
+			
 		}
 	  }
+	
+	public static PigZombie randomCop(Location loc, int chance){
+		int c = ran.nextInt(5)+1;
+		Entity e = loc.getWorld().spawnEntity(loc, EntityType.PIG_ZOMBIE);
+		PigZombie le = (PigZombie)e;
+		if(c == 5){
+			setMaxHealth(e, 40);
+			le.setHealth(40);
+			//setspeed
+			le.setCustomName(ChatColor.RED + "" + ChatColor.UNDERLINE + "Cop" + ChatColor.GOLD + "" + ChatColor.ITALIC + "V");
+		}else if(c == 4){
+			setMaxHealth(e, 30);
+		}else if(c == 3){
+			setMaxHealth(e, 20);
+		}else if(c == 2){
+			setMaxHealth(e, 15);
+		}else if(c == 1){
+			setMaxHealth(e, 12);
+		}
+		
+		return null;
+	}
 	
 	public static void setMaxHealth(Entity e, double health) {
 		AttributeInstance attributes = ((EntityInsentient) ((CraftLivingEntity) e).getHandle()).getAttributeInstance(GenericAttributes.maxHealth);

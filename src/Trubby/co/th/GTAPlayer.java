@@ -48,9 +48,9 @@ public class GTAPlayer {
 		sbu.add(ChatColor.AQUA + "K/D Ratio");
 		sbu.add(""+kdr);
 		sbu.add(ChatColor.AQUA + "Money");
-		sbu.add(ChatColor.GOLD + "" + GTA.economy.getBalance(name));
+		sbu.add(ChatColor.GOLD + "" + (int)GTA.economy.getBalance(name));
 		sbu.add(ChatColor.AQUA + "Wanted");
-		sbu.add(""+wanted);
+		sbu.add(""+GTA.getWantedManager().getWantedTab(wanted));
 		sbu.build();
 		
 		sb = sbu.getScoreboard();
@@ -70,9 +70,9 @@ public class GTAPlayer {
 		sbu.add(ChatColor.AQUA + "K/D Ratio");
 		sbu.add(""+kdr);
 		sbu.add(ChatColor.AQUA + "Money");
-		sbu.add(ChatColor.GOLD + "" + GTA.economy.getBalance(name));
+		sbu.add(ChatColor.GOLD + "" + (int)GTA.economy.getBalance(name));
 		sbu.add(ChatColor.AQUA + "Wanted");
-		sbu.add(""+wanted);
+		sbu.add(""+GTA.getWantedManager().getWantedTab(wanted));
 		sbu.update();
 		ob = sb.getObjective("GTA");
 		
@@ -81,7 +81,7 @@ public class GTAPlayer {
 	public void save(){
 		try {
 			Statement statement = GTA.getSql().connection.createStatement();
-			statement.executeUpdate("UPDATE  `mc`.`gta` SET  `Kill` =  '"+kill+"',`Death` =  '"+death+"' WHERE CONVERT(  `gta`.`Name` USING utf8 ) =  '"+name+"';");
+			statement.executeUpdate("UPDATE  `MC`.`GTA` SET  `Kill` =  '"+kill+"',`Death` =  '"+death+"' WHERE  `GTA`.`Name` =  '"+name+"';");
 			statement.close();
 		} catch (SQLException e) {
 		}

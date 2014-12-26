@@ -5,6 +5,6 @@ main: Trubby.co.th.GTA
 author: Tub
 depend: [Vault, Essentials]
 commands:
-  test:
-  connect:
-  setup:
+  g:
+  gta:
+  wanted:

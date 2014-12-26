@@ -19,7 +19,8 @@ public class SqlManager {
 		//Create table
 		try {
 			Statement statement = connection.createStatement();
-			statement.executeUpdate("CREATE TABLE GTA(Name varchar(16),Kill int,Death int);");
+			//statement.executeUpdate("CREATE TABLE GTA(Name varchar(16),Kill int,Death int);");
+			statement.executeUpdate("CREATE TABLE  `GTA` (`Name` VARCHAR( 16 ) NOT NULL ,`Kill` INT NOT NULL ,`Death` INT NOT NULL) ENGINE = MYISAM ;");
 			statement.close();
 			Bukkit.broadcastMessage("2");
 		} catch (SQLException e) {
