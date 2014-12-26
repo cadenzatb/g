@@ -75,7 +75,7 @@ public class GTA extends JavaPlugin{
 			
 		if(label.equalsIgnoreCase("gta") || label.equalsIgnoreCase("g")){
 			//permission
-			if(sender.hasPermission("gta.admin")){
+			if(!sender.hasPermission("gta.admin")){
 				sender.sendMessage(ChatColor.RED + "Nothing happen.");
 				return false;
 			}
