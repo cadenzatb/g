@@ -45,43 +45,48 @@ public class ItemDatabase {
 		ItemStack gun_pistol3 = GTA.crackshot.generateWeapon("Pistol3");
 		ItemStack gun_pistol4 = GTA.crackshot.generateWeapon("Pistol4");
 		ItemStack gun_pistol5 = GTA.crackshot.generateWeapon("Pistol5");
-		cm.gunlist.add(new GTAItem(gun_pistol1, 1, 300));
-		cm.gunlist.add(new GTAItem(gun_pistol2, 1, 150));
-		cm.gunlist.add(new GTAItem(gun_pistol3, 1, 50));
-		cm.gunlist.add(new GTAItem(gun_pistol4, 1, 10));
-		cm.gunlist.add(new GTAItem(gun_pistol5, 1, 5));
 		
 		ItemStack gun_assault1 = GTA.crackshot.generateWeapon("Assault1");
 		ItemStack gun_assault2 = GTA.crackshot.generateWeapon("Assault2");
 		ItemStack gun_assault3 = GTA.crackshot.generateWeapon("Assault3");
 		ItemStack gun_assault4 = GTA.crackshot.generateWeapon("Assault4");
 		ItemStack gun_assault5 = GTA.crackshot.generateWeapon("Assault5");
-		cm.gunlist.add(new GTAItem(gun_assault1, 1, 300));
-		cm.gunlist.add(new GTAItem(gun_assault2, 1, 150));
-		cm.gunlist.add(new GTAItem(gun_assault3, 1, 50));
-		cm.gunlist.add(new GTAItem(gun_assault4, 1, 10));
-		cm.gunlist.add(new GTAItem(gun_assault5, 1, 5));
 		
 		ItemStack gun_sniper1 = GTA.crackshot.generateWeapon("Sniper1");
 		ItemStack gun_sniper2 = GTA.crackshot.generateWeapon("Sniper2");
 		ItemStack gun_sniper3 = GTA.crackshot.generateWeapon("Sniper3");
 		ItemStack gun_sniper4 = GTA.crackshot.generateWeapon("Sniper4");
 		ItemStack gun_sniper5 = GTA.crackshot.generateWeapon("Sniper5");
-		cm.gunlist.add(new GTAItem(gun_sniper1, 1, 300));
-		cm.gunlist.add(new GTAItem(gun_sniper2, 1, 150));
-		cm.gunlist.add(new GTAItem(gun_sniper3, 1, 50));
-		cm.gunlist.add(new GTAItem(gun_sniper4, 1, 10));
-		cm.gunlist.add(new GTAItem(gun_sniper5, 1, 5));
 		
 		ItemStack gun_shotgun1 = GTA.crackshot.generateWeapon("Shotgun1");
 		ItemStack gun_shotgun2 = GTA.crackshot.generateWeapon("Shotgun2");
 		ItemStack gun_shotgun3 = GTA.crackshot.generateWeapon("Shotgun3");
 		ItemStack gun_shotgun4 = GTA.crackshot.generateWeapon("Shotgun4");
 		ItemStack gun_shotgun5 = GTA.crackshot.generateWeapon("Shotgun5");
+		
+		cm.gunlist.add(new GTAItem(gun_pistol1, 1, 300));
+		cm.gunlist.add(new GTAItem(gun_assault1, 1, 300));
+		cm.gunlist.add(new GTAItem(gun_sniper1, 1, 300));
 		cm.gunlist.add(new GTAItem(gun_shotgun1, 1, 300));
+
+		cm.gunlist.add(new GTAItem(gun_pistol2, 1, 150));
+		cm.gunlist.add(new GTAItem(gun_assault2, 1, 150));
+		cm.gunlist.add(new GTAItem(gun_sniper2, 1, 150));
 		cm.gunlist.add(new GTAItem(gun_shotgun2, 1, 150));
+
+		cm.gunlist.add(new GTAItem(gun_pistol3, 1, 50));
+		cm.gunlist.add(new GTAItem(gun_assault3, 1, 50));
+		cm.gunlist.add(new GTAItem(gun_sniper3, 1, 50));
 		cm.gunlist.add(new GTAItem(gun_shotgun3, 1, 50));
+		
+		cm.gunlist.add(new GTAItem(gun_pistol4, 1, 10));
+		cm.gunlist.add(new GTAItem(gun_assault4, 1, 10));
+		cm.gunlist.add(new GTAItem(gun_sniper4, 1, 10));
 		cm.gunlist.add(new GTAItem(gun_shotgun4, 1, 10));
+
+		cm.gunlist.add(new GTAItem(gun_pistol5, 1, 5));
+		cm.gunlist.add(new GTAItem(gun_assault5, 1, 5));
+		cm.gunlist.add(new GTAItem(gun_sniper5, 1, 5));
 		cm.gunlist.add(new GTAItem(gun_shotgun5, 1, 5));
 		
 		/**
@@ -97,7 +102,7 @@ public class ItemDatabase {
 		ItemStack raw_fish = new ItemStack(Material.RAW_FISH);
 		ItemStack raw_beef = new ItemStack(Material.RAW_BEEF);
 		
-		ItemStack coal = new ItemStack(Material.COAL);
+		ItemStack coal = new ItemsUtil(Material.COAL).lore(ChatColor.GRAY + "For smelt a raw meat").lore(ChatColor.GRAY + "in any house furnace..").build();
 		
 		cm.itemlist.add(new GTAItem(apple, 3, 10));
 		cm.itemlist.add(new GTAItem(soup, 1, 10));
@@ -119,40 +124,40 @@ public class ItemDatabase {
 		ItemStack l_leg = new ItemStack(Material.LEATHER_LEGGINGS);
 		ItemStack l_boo = new ItemStack(Material.LEATHER_BOOTS);
 		
-		cm.itemlist.add(new GTAItem(l_hel, 1, 10));
-		cm.itemlist.add(new GTAItem(l_che, 1, 10));
-		cm.itemlist.add(new GTAItem(l_leg, 1, 10));
-		cm.itemlist.add(new GTAItem(l_boo, 1, 10));
+		cm.armourlist.add(new GTAItem(l_hel, 1, 30));
+		cm.armourlist.add(new GTAItem(l_che, 1, 30));
+		cm.armourlist.add(new GTAItem(l_leg, 1, 30));
+		cm.armourlist.add(new GTAItem(l_boo, 1, 30));
 		
 		ItemStack g_hel = new ItemStack(Material.GOLD_HELMET);
 		ItemStack g_che = new ItemStack(Material.GOLD_CHESTPLATE);
 		ItemStack g_leg = new ItemStack(Material.GOLD_LEGGINGS);
 		ItemStack g_boo = new ItemStack(Material.GOLD_BOOTS);
 		
-		cm.itemlist.add(new GTAItem(g_hel, 1, 8));
-		cm.itemlist.add(new GTAItem(g_che, 1, 8));
-		cm.itemlist.add(new GTAItem(g_leg, 1, 8));
-		cm.itemlist.add(new GTAItem(g_boo, 1, 8));
+		cm.armourlist.add(new GTAItem(g_hel, 1, 25));
+		cm.armourlist.add(new GTAItem(g_che, 1, 25));
+		cm.armourlist.add(new GTAItem(g_leg, 1, 25));
+		cm.armourlist.add(new GTAItem(g_boo, 1, 25));
 		
 		ItemStack c_hel = new ItemStack(Material.CHAINMAIL_HELMET);
 		ItemStack c_che = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
 		ItemStack c_leg = new ItemStack(Material.CHAINMAIL_LEGGINGS);
 		ItemStack c_boo = new ItemStack(Material.CHAINMAIL_BOOTS);
 		
-		cm.itemlist.add(new GTAItem(c_hel, 1, 4));
-		cm.itemlist.add(new GTAItem(c_che, 1, 4));
-		cm.itemlist.add(new GTAItem(c_leg, 1, 4));
-		cm.itemlist.add(new GTAItem(c_boo, 1, 4));
+		cm.armourlist.add(new GTAItem(c_hel, 1, 8));
+		cm.armourlist.add(new GTAItem(c_che, 1, 8));
+		cm.armourlist.add(new GTAItem(c_leg, 1, 8));
+		cm.armourlist.add(new GTAItem(c_boo, 1, 8));
 		
 		ItemStack i_hel = new ItemStack(Material.IRON_HELMET);
 		ItemStack i_che = new ItemStack(Material.IRON_CHESTPLATE);
 		ItemStack i_leg = new ItemStack(Material.IRON_LEGGINGS);
 		ItemStack i_boo = new ItemStack(Material.IRON_BOOTS);
 		
-		cm.itemlist.add(new GTAItem(i_hel, 1, 2));
-		cm.itemlist.add(new GTAItem(i_che, 1, 2));
-		cm.itemlist.add(new GTAItem(i_leg, 1, 2));
-		cm.itemlist.add(new GTAItem(i_boo, 1, 2));
+		cm.armourlist.add(new GTAItem(i_hel, 1, 4));
+		cm.armourlist.add(new GTAItem(i_che, 1, 4));
+		cm.armourlist.add(new GTAItem(i_leg, 1, 4));
+		cm.armourlist.add(new GTAItem(i_boo, 1, 4));
 	}
 	
 }

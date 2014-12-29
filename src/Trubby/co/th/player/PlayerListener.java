@@ -1,4 +1,4 @@
-package Trubby.co.th;
+package Trubby.co.th.player;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,6 +12,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.iCo6.system.events.HoldingsUpdate;
+
+import Trubby.co.th.GTA;
+import Trubby.co.th.GTAPlayer;
 import Trubby.co.th.Utils.MobsUtil;
 
 public class PlayerListener implements Listener{
@@ -40,7 +44,7 @@ public class PlayerListener implements Listener{
 			
 			//killer.sendMessage(ChatColor.RED + "You killed " + ChatColor.YELLOW + death.getName() + "." + ChatColor.RED + " You will be chase by cops.");
 			
-			MobsUtil.spawnPigman(killer.getLocation(), (int) p.getWanted());
+			MobsUtil.randomCop(killer.getLocation(), (int) p.getWanted());
 			
 			//DEATH
 			GTAPlayer deathp = GTA.getPlayerManager().getGTAplayer(death.getName());
@@ -77,27 +81,27 @@ public class PlayerListener implements Listener{
 		double stealed_money = GTA.economy.getBalance(stealed.getName());
 		double amount = 0;
 		if(wanted >= 5f){
-			amount = (int) (stealed_money/100) * 60;
+			amount = (int) ((stealed_money/100) * 60);
 			GTA.economy.withdrawPlayer(stealed.getName(), amount);
 			GTA.economy.depositPlayer(stealer.getName(), amount);
 		}else if(wanted >= 4.0f){
-			amount = (int) (stealed_money/100) * 40;
+			amount = (int) ((stealed_money/100) * 40);
 			GTA.economy.withdrawPlayer(stealed.getName(), amount);
 			GTA.economy.depositPlayer(stealer.getName(), amount);
 		}else if(wanted >= 3.0f){
-			amount = (int) (stealed_money/100) * 30;
+			amount = (int) ((stealed_money/100) * 30);
 			GTA.economy.withdrawPlayer(stealed.getName(), amount);
 			GTA.economy.depositPlayer(stealer.getName(), amount);
 		}else if(wanted >= 2.0f){
-			amount = (int) (stealed_money/100) * 20;
+			amount = (int) ((stealed_money/100) * 20);
 			GTA.economy.withdrawPlayer(stealed.getName(), amount);
 			GTA.economy.depositPlayer(stealer.getName(), amount);
 		}else if(wanted >= 1.0f){
-			amount = (int) (stealed_money/100) * 15;
+			amount = (int) ((stealed_money/100) * 15);
 			GTA.economy.withdrawPlayer(stealed.getName(), amount);
 			GTA.economy.depositPlayer(stealer.getName(), amount);
 		}else if(wanted >= 0f){
-			amount = (int) (stealed_money/100) * 10;
+			amount = (int) ((stealed_money/100) * 10);
 			GTA.economy.withdrawPlayer(stealed.getName(), amount);
 			GTA.economy.depositPlayer(stealer.getName(), amount);
 		}
@@ -111,5 +115,18 @@ public class PlayerListener implements Listener{
 		if(e.getEntity().getWorld().getName().equalsIgnoreCase("gtalobby")){
 			e.setCancelled(true);
 		}
+	}
+	
+	@EventHandler
+	public void onHoldUpdate(final HoldingsUpdate e){
+		
+		Bukkit.getScheduler().scheduleSyncDelayedTask(GTA.instance, new Runnable() {
+			
+			@Override
+			public void run() {
+				GTAPlayer gtap = GTA.getPlayerManager().getGTAplayer(e.getAccountName());
+				gtap.updateScoreboard();
+			}
+		}, 5L);
 	}
 }

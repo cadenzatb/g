@@ -68,17 +68,17 @@ public class WantedManager {
 	
 	public long getWantedTime(float wanted){
 		if(wanted >= 5){
-			return 11000;
+			return 6*60*1000;
 		}else if(wanted >= 4){
-			return 90000;
+			return 4*60*1000;
 		}else if(wanted >= 3){
-			return 72000;
+			return 3*60*1000;
 		}else if(wanted >= 2){
-			return 54000;
+			return 2*60*1000;
 		}else if(wanted >= 1){
-			return 36000;
+			return 1*60*1000;
 		}else if(wanted > 0){
-			return 28000;
+			return 1*60*1000;
 		}else{
 			return 0;
 		}
@@ -112,10 +112,11 @@ public class WantedManager {
 	}
 	
 	public void listWanted(Player p){
-		p.sendMessage(ChatColor.RED + "---------- Wanted LIST ----------");
+		p.sendMessage(ChatColor.GOLD + "" + ChatColor.STRIKETHROUGH + "----------" + ChatColor.RED + " Wanted LIST  " + ChatColor.GOLD + "" + ChatColor.STRIKETHROUGH  + "----------");
 		for (Object object : wantedlist.keySet()) {
 			Wanted w = wantedlist.get(object);
-			p.sendMessage(w.getName() + " : " + getWantedTab(w.getWanted()));
+			long timeleft = (long) getWantedTime(w.getWanted()) - (System.currentTimeMillis() - w.getTime());
+			p.sendMessage(w.getName() + " : " + getWantedTab(w.getWanted()) + ChatColor.RESET + " : " + ChatColor.GREEN + TimeConverter.milisToMin(timeleft));
 		}
 	}
 }

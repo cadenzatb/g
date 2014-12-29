@@ -58,8 +58,7 @@ public class MobsUtil {
 	public static void spawnPigman(Location loc, int wanted)
 	  {
 		
-		if(wanted >= 5){
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < wanted * 2; i++) {
 				Entity e = loc.getWorld().spawnEntity(loc, EntityType.PIG_ZOMBIE);
 				PigZombie le = (PigZombie)e;
 			    le.setCustomName(ChatColor.RED + "COP");
@@ -69,16 +68,43 @@ public class MobsUtil {
 			    le.setBaby(false);
 			    le.getEquipment().setItemInHand(new ItemStack(Material.AIR));
 			}
-		}else if(wanted >= 4){
-			
-		}
 	  }
 	
 	public static PigZombie randomCop(Location loc, int chance){
-		int c = ran.nextInt(5)+1;
-		Entity e = loc.getWorld().spawnEntity(loc, EntityType.PIG_ZOMBIE);
-		PigZombie le = (PigZombie)e;
-		if(c == 5){
+		
+		if(chance >= 3){
+			int c = ran.nextInt((chance)) + ran.nextInt(4);
+			for (int i = 0; i < c; i++) {
+				Entity e = loc.getWorld().spawnEntity(loc, EntityType.PIG_ZOMBIE);
+				PigZombie le = (PigZombie)e;
+				setMaxHealth(e, 15);
+				le.setHealth(15);
+				le.setCustomName(ChatColor.RED + "COP");
+			    le.setCustomNameVisible(true);
+			    le.setRemoveWhenFarAway(true);
+			    le.setAngry(true);
+			    le.setBaby(false);
+			    le.getEquipment().setItemInHand(new ItemStack(Material.AIR));
+			}
+		}
+		
+		else if(chance >= -1){
+			int c = ran.nextInt((chance)) + ran.nextInt(2);
+			for (int i = 0; i < c; i++) {
+				Entity e = loc.getWorld().spawnEntity(loc, EntityType.PIG_ZOMBIE);
+				PigZombie le = (PigZombie)e;
+				setMaxHealth(e, 15);
+				le.setHealth(15);
+				le.setCustomName(ChatColor.RED + "COP");
+			    le.setCustomNameVisible(true);
+			    le.setRemoveWhenFarAway(true);
+			    le.setAngry(true);
+			    le.setBaby(false);
+			    le.getEquipment().setItemInHand(new ItemStack(Material.AIR));
+			}
+		}
+		
+		/*if(c == 5){
 			setMaxHealth(e, 40);
 			le.setHealth(40);
 			//setspeed
@@ -91,7 +117,7 @@ public class MobsUtil {
 			setMaxHealth(e, 15);
 		}else if(c == 1){
 			setMaxHealth(e, 12);
-		}
+		}*/
 		
 		return null;
 	}

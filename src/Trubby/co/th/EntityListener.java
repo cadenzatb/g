@@ -12,7 +12,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 
-public class MobListener implements Listener{
+public class EntityListener implements Listener{
 
 	@EventHandler
 	public void onTargetSelect(EntityTargetEvent e){

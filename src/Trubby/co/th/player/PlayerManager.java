@@ -1,4 +1,4 @@
-package Trubby.co.th;
+package Trubby.co.th.player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +9,9 @@ import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import Trubby.co.th.GTA;
+import Trubby.co.th.GTAPlayer;
 
 public class PlayerManager {
 
@@ -59,7 +62,6 @@ public class PlayerManager {
 	public void addMoney(Player p, int amount){
 		GTA.economy.depositPlayer(p.getName(), (double)amount);
 		p.sendMessage("You get " + ChatColor.GREEN + amount + "$" + ChatColor.RESET + " from looting chest.");
-		getGTAplayer(p.getName()).updateScoreboard();
 	}
 	
 	public GTAPlayer getGTAplayer(String str) {

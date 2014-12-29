@@ -22,8 +22,9 @@ public class ChestManager {
 	public List<GTAChest> chestlist = new ArrayList<>();
 	public List<GTAItem> itemlist = new ArrayList<>();
 	public List<GTAItem> gunlist = new ArrayList<>();
+	public List<GTAItem> armourlist = new ArrayList<>();
 	
-	public long chest_delay = 1200L;
+	public long chest_delay = 6000L;
 	
 	@SuppressWarnings("deprecation")
 	public void breakChest(final Chest chest){
@@ -138,7 +139,7 @@ public class ChestManager {
 		}
 		
 		//GUNS fill
-		int gun = 0;
+		/*int gun = 0;
 		for (int j = 0; j < 6; j++) {
 			if(gun > 0)break;
 			
@@ -147,9 +148,31 @@ public class ChestManager {
 				inv.addItem(gtaitem.getItem());
 				gun++;
 			}
+		}*/
+		
+		int gun = 0;
+		if(ran.nextInt(4) == 1){ //15%
+			for (GTAItem gtaitem : gunlist) {
+				if(gun > 0)break;
+				
+				if(ran.nextInt(1000) + 1 <= gtaitem.getChance()){
+					inv.addItem(gtaitem.getItem());
+					gun++;
+				}
+			}
 		}
 		
 		System.out.println("Chest fill count : " + i + " / Has gun : " + gun);
+		
+		//Armour fill
+		if(ran.nextInt(3) == 1){ //18%
+			for(GTAItem gtaitem : armourlist){
+				if(ran.nextInt(100) + 1 <= gtaitem.getChance()){
+					inv.addItem(gtaitem.getItem());
+					break;
+				}
+			}
+		}
 	}
 	
 	public void setChest_delay(long chest_delay) {

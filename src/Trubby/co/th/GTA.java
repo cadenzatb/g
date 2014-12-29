@@ -9,15 +9,21 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import Trubby.co.th.SQL.SqlManager;
+import Trubby.co.th.Utils.ClearUtil;
 import Trubby.co.th.chest.ChestListener;
 import Trubby.co.th.chest.ChestManager;
 import Trubby.co.th.chest.ItemDatabase;
+import Trubby.co.th.player.CarListener;
+import Trubby.co.th.player.PlayerListener;
+import Trubby.co.th.player.PlayerManager;
 import Trubby.co.th.wanted.WantedManager;
 
 import com.shampaggon.crackshot.CSUtility;
@@ -39,8 +45,9 @@ public class GTA extends JavaPlugin{
 	@Override
 	public void onEnable() {
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
-		Bukkit.getPluginManager().registerEvents(new MobListener(), this);
+		Bukkit.getPluginManager().registerEvents(new EntityListener(), this);
 		Bukkit.getPluginManager().registerEvents(new ChestListener(), this);
+		Bukkit.getPluginManager().registerEvents(new CarListener(), this);
 		
 		instance = this;
 		
@@ -84,8 +91,8 @@ public class GTA extends JavaPlugin{
 				
 				if(args[0].equalsIgnoreCase("chestdelay")){
 					if(args.length >= 2){
-						getChestManager().setChest_delay(Integer.getInteger(args[2]));
-						sender.sendMessage("Chest delay set to " + args[2]);
+						getChestManager().setChest_delay(Integer.parseInt(args[1]));
+						sender.sendMessage("Chest delay set to " + args[1]);
 					}else{
 						sender.sendMessage("/gta chestdelay [amount]");
 					}
@@ -109,6 +116,22 @@ public class GTA extends JavaPlugin{
 						}
 					}
 					p.sendMessage(""+i);
+				}
+				
+				else if(args[0].equalsIgnoreCase("clear")){
+					Player p = (Player) sender;
+					if(args.length < 2) {
+						p.sendMessage("/gta clear car");
+						p.sendMessage("/gta clear cop");
+					}
+					
+					else if(args[1].equalsIgnoreCase("car")){
+						p.sendMessage("clear " + ClearUtil.clearEntity(p.getWorld(), EntityType.MINECART) + " cars.");
+					}
+					
+					else if(args[1].equalsIgnoreCase("cop")){
+						p.sendMessage("clear " + ClearUtil.clearEntity(p.getWorld(), EntityType.PIG_ZOMBIE) + " cops.");
+					}
 				}
 				
 				
